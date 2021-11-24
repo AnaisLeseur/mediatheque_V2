@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+<br/>
+    <h1>Information sur : {{book.title}} </h1>
+    <br/>
+    <div class="card text-center">
+        <div class="card-header">
+            {{book.title}}
+        </div>
+        <div class="card-body">
+            <img class="card-img-top" src="{{book.image}}" alt="Card image cap">
+            <h5 class="card-title">Autheur : {{book.author}}</h5>
+            {% if book.publishDate == '' %}
+                <h5 class="card-title">Catégorie : {{book.publishDate}}</h5>
+            {% endif %}
+            <p class="card-text">{{book.details}}</p>
+            <a href="#" class="btn btn-primary">Faire une réservation </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

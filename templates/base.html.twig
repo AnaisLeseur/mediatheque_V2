@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
@@ -12,8 +12,47 @@
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+
+    $('.navbar .dropdown-item').on('click', function (e) {
+        var $el = $(this).children('.dropdown-toggle');
+        var $parent = $el.offsetParent(".dropdown-menu");
+        $(this).parent("li").toggleClass('open');
+
+        if (!$parent.parent().hasClass('navbar-nav')) {
+            if ($parent.hasClass('show')) {
+                $parent.removeClass('show');
+                $el.next().removeClass('show');
+                $el.next().css({"top": -999, "left": -999});
+            } else {
+                $parent.parent().find('.show').removeClass('show');
+                $parent.addClass('show');
+                $el.next().addClass('show');
+                $el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
+            }
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    $('.navbar .dropdown').on('hidden.bs.dropdown', function () {
+        $(this).find('li.dropdown').removeClass('show open');
+        $(this).find('ul.dropdown-menu').removeClass('show open');
+    });
+
+});
+</script>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% include "navbar.html.twig" %}
+            {% block body %}{% endblock %}
+            {% include "footer.html.twig" %}
+        </div>
     </body>
 </html>
+
