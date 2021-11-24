@@ -35,7 +35,7 @@ class Booking
     private $booking_date;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $return_date;
 

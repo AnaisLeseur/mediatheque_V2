@@ -6,6 +6,11 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    img{
+        margin-bottom: 15px;
+        max-width: 150px;
+        height: auto;
+    }
 </style>
 
 <div class="example-wrapper">
@@ -17,12 +22,13 @@
             {{book.title}}
         </div>
         <div class="card-body">
-            <img class="card-img-top" src="{{book.image}}" alt="Card image cap">
+            <img class="card-img-top" src="{{ asset('/images/books/'~ book.image )}}" alt="Card image cap">
             <h5 class="card-title">Autheur : {{book.author}}</h5>
-            {% if book.publishDate == '' %}
-                <h5 class="card-title">Catégorie : {{book.publishDate}}</h5>
+            <p class="card-title">Catégorie: {{book.category}}</p>
+            {% if book.publishDate != '' %}
+                <h5 class="card-title">Date de publication: {{book.publishDate}}</h5>
             {% endif %}
-            <p class="card-text">{{book.details}}</p>
+            <p class="card-text"><i>{{book.details}}</i></p>
             <a href="#" class="btn btn-primary">Faire une réservation </a>
         </div>
     </div>

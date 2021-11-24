@@ -6,15 +6,23 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    img{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        max-width: 150px;
+        height: auto;
+    }
 </style>
 
 <div class="example-wrapper">
 <br/>
     <h1>Liste des livres disponibles! ✅</h1>
     <br/>
+    <div class="card-deck">
     {% for book in books %}
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{book.image}}" alt="Card image cap">
+            <img class="card-img-top" src="{{ asset('/images/books/'~ book.image )}}" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
                 <p class="card-text">{{book.category}}</p>
@@ -22,6 +30,7 @@
             </div>
         </div>
     {% endfor %}
+    </div>
 
 </div>
 {% endblock %}

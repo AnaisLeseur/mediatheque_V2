@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\Booking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,22 +20,19 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    // /**
-    //  * @return Book[] Returns an array of Book objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Book[] Returns an array of Book objects
+    */
+    public function findAvailableBooks()
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin(Booking::class, 'bkg', 'bkg.book = b.id')
+            ->andWhere('bkg.book IS NULL')
+            ->orderBy('b.title', 'ASC')
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Book

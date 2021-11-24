@@ -48,28 +48,18 @@ class BookController extends AbstractController
     {
 
         $user = $this->security->getUser()->getId();
-        var_dump($user);
-        if (!empty($user)) {
-            $userId = $user;
-            var_dump($userId);
-        }
-        return $this->render('user/index.html.twig', [
-            'user' => $user,
-        ]);
-        //$bookings = $bookingRepo->findBy(['user_id' => $user], ['booking_date' => 'desc']);
-        //exit();
-        /* $user->getBookings();
-        //var_dump($bookings);
-        exit();
-        $books = [];
+
+        $bookings = $bookingRepo->findBy(['book' => 1], ['booking_date' => 'desc']);
+        var_dump($bookings);
+/*         $books = [];
         foreach ($bookings as $booking) {
             $book = $booking->getbook();
             array_push($books, $book);
             var_dump($book);
-        }
+        } */
         
         return $this->render('book/booking.html.twig', [
-            'books' => $books,
-        ]); */
+            //'books' => $books,
+        ]); 
     }
 }
