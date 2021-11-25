@@ -13,15 +13,18 @@
         max-width: 150px;
         height: auto;
     }
+    .max-card {
+        max-width: 220px;
+        height: auto;
+    }
 </style>
 
-<div class="example-wrapper">
 <br/>
     <h1>Liste des livres disponibles! ✅</h1>
     <br/>
     <div class="card-deck">
     {% for book in books %}
-        <div class="card" style="width: 18rem;">
+        <div class="card max-card" style="width: 18rem;">
             <img class="card-img-top" src="{{ asset('/images/books/'~ book.image )}}" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
@@ -32,5 +35,4 @@
     {% endfor %}
     </div>
 
-</div>
 {% endblock %}

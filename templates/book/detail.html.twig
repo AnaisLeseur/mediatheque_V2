@@ -26,7 +26,7 @@
             <h5 class="card-title">Autheur : {{book.author}}</h5>
             <p class="card-title">Catégorie: {{book.category}}</p>
             {% if book.publishDate != '' %}
-                <h5 class="card-title">Date de publication: {{book.publishDate}}</h5>
+                <h5 class="card-title">Date de publication: {{book.publishDate|date('Y')}}</h5>
             {% endif %}
             <p class="card-text"><i>{{book.details}}</i></p>
             <a href="#" class="btn btn-primary">Faire une réservation </a>

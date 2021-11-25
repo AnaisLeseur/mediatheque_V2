@@ -7,30 +7,42 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     img{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
         max-width: 150px;
+        height: auto;
+    }
+    .max-card {
+        max-width: 220px;
         height: auto;
     }
 </style>
 
-<div class="example-wrapper">
 <br/>
-    <h1>Liste que vous avez réservés</h1>
+    <h1>Livre(s) que vous avez emprunté(s)</h1>
     <br/>
 
-    {% if books == [] %}
+    {% if bookings == [] %}
         <h5 class="card-title">Vous n'avez pas encore de réservation</h5>
     {% else %}
-        {% for book in books %}
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset('/images/books/'~ book.image )}}" alt="Card image cap">
+    <div class="card-deck">
+        {% for booking in bookings %}
+            <div class="card max-card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ asset('/images/books/'~ booking.book.image )}}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{book.title}}</h5>
-                    <p class="card-text">{{book.category}}</p>
-                    <a href="{{path("show_book",{"id":book.id}) }}" class="btn btn-primary">Voir le détail...</a>
+                    <h5 class="card-title">{{booking.book.title}}</h5>
+                    <p class="card-text">{{booking.book.category}}</p>
+                    {% if booking.returnDate != '' %}
+                    <p class="card-text">Emprunté du : {{(booking.bookingDate|date('d-m-Y'))}} au : {{(booking.returnDate|date('d-m-Y'))}}</p>
+                    {% else %}
+                    <p class="card-text">Emprunté le : {{(booking.bookingDate|date('d-m-Y'))}}</p>
+                    <p class="card-text">Ce livre est encore en votre possession. Il doit être rendu pour le : {{(booking.bookingDate|date_modify("+30 day")|date('d-m-Y'))}}</p>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
+    </div>
     {% endif %}
 
-</div>
 {% endblock %}

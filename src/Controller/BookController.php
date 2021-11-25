@@ -47,19 +47,54 @@ class BookController extends AbstractController
     public function getBooking(BookRepository $bookRepo, BookingRepository $bookingRepo): Response
     {
 
-        $user = $this->security->getUser()->getId();
-
-        $bookings = $bookingRepo->findBy(['book' => 1], ['booking_date' => 'desc']);
-        var_dump($bookings);
-/*         $books = [];
+        $user = $this->security->getUser()/* ->getId() */;
+        $bookings = $bookingRepo->findBy(['user' => $user], ['booking_date' => 'desc']);
+/*        $books = [];
         foreach ($bookings as $booking) {
             $book = $booking->getbook();
             array_push($books, $book);
-            var_dump($book);
         } */
         
         return $this->render('book/booking.html.twig', [
-            //'books' => $books,
+            'bookings' => $bookings,
         ]); 
     }
+        /**
+     * @Route("/admin/add_book", name="add_book")
+     */
+    public function addBook(): Response
+    {
+        return $this->render('booking/index.html.twig', [
+            'controller_name' => 'BookingController',
+        ]);
+    }
+            /**
+     * @Route("/admin/update_book", name="admin_update_book")
+     */
+    public function updateBook(): Response
+    {
+        return $this->render('booking/index.html.twig', [
+            'controller_name' => 'BookingController',
+        ]);
+    }
+            /**
+     * @Route("/admin/delete_book", name="admin_delete_book")
+     */
+    public function deleteBook(): Response
+    {
+        return $this->render('booking/index.html.twig', [
+            'controller_name' => 'BookingController',
+        ]);
+    }
+            /**
+     * @Route("/admin/manage_books", name="manage_books")
+     */
+    public function manageBooks(BookRepository $bookRepo): Response
+    {
+        $books = $bookRepo->findAll();
+        return $this->render('booking/index.html.twig', [
+            'books' => $books,
+        ]);
+    }
+    
 }
