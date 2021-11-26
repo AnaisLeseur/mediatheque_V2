@@ -7,16 +7,64 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     img{
-        margin-bottom: 15px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
         max-width: 150px;
         height: auto;
     }
+    .max-card {
+        max-width: 220px;
+        height: auto;
+    }
+        table {
+        width:100%;
+    }
+    td, th {
+        margin:15px;
+        padding:15px;
+        text-align:center
+    }
+    tr {
+        border-bottom:solid 1px grey; 
+    }
+    thead {
+        background-color:lightgrey;
+        text-align:center
+    }
 </style>
 
-<div class="example-wrapper">
 <br/>
-    <h1>Information sur les retours </h1>
+    <h1>Liste des réservations ✅</h1>
+    <br/>
+    <table>
+        <thead>
+            <th>Livre</th>
+            <th>Personne</th>
+            <th>Date de réservation</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
 
 
-</div>
+    {% for booking in bookings %}
+    <tr>
+        <td><strong>{{ booking.book.title }}</strong></td>
+        <td>{{ booking.user.name }}</td>
+        <td>{{ booking.bookingDate|date('d-M-Y') }}</td>
+        <td>
+            <a href="{{path("returned",{"id":booking.id} )}}">
+                <button type="button" class="btn btn-secondary">Valider le retour</button>
+            </a>
+            <a href="{{path("home",{"id":booking.user.id} )}}">
+                <button type="button" class="btn btn-danger">Envoyer un email de rappel</button>
+            </a>
+        </td>
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+</table>
+
 {% endblock %}

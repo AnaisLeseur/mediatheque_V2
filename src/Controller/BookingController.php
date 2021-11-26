@@ -22,10 +22,27 @@ class BookingController extends AbstractController
     /**
      * @Route("/return", name="return")
      */
-    public function index(): Response
+    public function index(BookingRepository $bookingRepo): Response
     {
+        $bookingAll = $bookingRepo->findByReturnDate();
         return $this->render('booking/return.html.twig', [
+            "bookings" => $bookingAll,
         ]);
+    }
+    /**
+     * @Route("/returned/{id}", name="returned")
+     */
+    public function returnBook(EntityManagerInterface $manager, BookingRepository $bookingRepo, $id): Response
+    {
+        $returnBook = $bookingRepo->find($id);
+        $date = new \DateTime('now');
+        $returnBook->setReturnDate($date);
+
+        $manager->persist($returnBook);
+        $this->addFlash("success", "Votre réservation à été prise en compte");
+        $manager->flush();
+
+        return $this->redirectToRoute('return');
     }
     /**
      * @Route("/admin_booking", name="admin_booking")
