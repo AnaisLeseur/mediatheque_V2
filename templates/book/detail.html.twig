@@ -29,7 +29,7 @@
                 <h5 class="card-title">Date de publication: {{book.publishDate|date('Y')}}</h5>
             {% endif %}
             <p class="card-text"><i>{{book.details}}</i></p>
-            <a href="#" class="btn btn-primary">Faire une réservation </a>
+            <a href="{{ path('make_booking',{"id":book.id}) }}" class="btn btn-primary">Faire une réservation </a>
         </div>
     </div>
 

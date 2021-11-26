@@ -24,8 +24,10 @@ class RegistrationFormType extends AbstractType
             ->add('name')
             ->add('adress')
             ->add('date_birth', DateType::class, [
-                'widget' => 'choice',
                 'format' => 'dd-MM-yyyy',
+                'widget' => 'single_text',
+                // this is actually the default format for single_text
+                'html5' => false,
             ])
             ->add('email')
 /*             ->add('agreeTerms', CheckboxType::class, [

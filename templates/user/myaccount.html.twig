@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    img{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        max-width: 250px;
+        height: auto;
+    }
 </style>
 
-    <h1>S'inscrire</h1>
+<div class="example-wrapper">
+    <h1>Vos informations personnelles : {{ app.user.name }} </h1>
 
     <div class="example-wrapper">
     {{ form_start(registrationForm) }}
@@ -16,7 +24,7 @@
             <div class="col-6">
                 <div> {{ form_row(registrationForm.name, {'attr' : {'class' : 'form-row-split'}, 'label':"Nom"}) }} </div>
                 <div> {{ form_row(registrationForm.adress, {'label':"Adresse"}) }} </div>
-                <div> {{ form_row(registrationForm.date_birth, {"attr":{"placeholder":"01-01-1990"}, "label":"Date de naissance"}) }} </div>
+                <div> {{ form_row(registrationForm.date_birth,  {"attr":{"placeholder":"01-01-1990"}, "label":"Date de naissance"}) }}  </div>
             </div>
             <div class="col-6">
                 <div> {{ form_row(registrationForm.email, {'label':"Email"}) }} </div>
@@ -31,4 +39,5 @@
     {{ form_end(registrationForm) }}
     </div>
 
+</div>
 {% endblock %}
