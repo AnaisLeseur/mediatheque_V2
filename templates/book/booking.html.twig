@@ -23,6 +23,16 @@
     <h1>Livre(s) que vous avez emprunté(s)</h1>
     <br/>
 
+        <br/>
+
+        {% for msg in app.flashes("success") %}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+        
+        <br/>
+
     {% if bookings == [] %}
         <h5 class="card-title">Vous n'avez pas encore de réservation</h5>
     {% else %}

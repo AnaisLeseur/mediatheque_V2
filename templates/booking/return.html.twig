@@ -36,6 +36,15 @@
 
 <br/>
     <h1>Liste des réservations ✅</h1>
+
+    <br/>
+
+{% for msg in app.flashes("success") %}
+    <div class="alert alert-success">
+        {{ msg }}
+    </div>
+{% endfor %}
+
     <br/>
     <table>
         <thead>
