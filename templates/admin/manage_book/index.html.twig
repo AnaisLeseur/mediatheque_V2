@@ -84,9 +84,11 @@
                 <a href="{{path("admin_update_book",{"id":book.id} )}}">
                     <button type="button" class="btn btn-secondary">Modifier</button>
                 </a>
-                <a href="{{path("admin_delete_book",{"id":book.id} )}}">
-                    <button type="button" class="btn btn-danger" >Supprimer</button>
-                </a>
+                <form style="display:inline-block;" action="{{ path('admin_delete_book', {'id': book.id })}}" method="POST">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="_token" value="{{csrf_token('SUP'~ book.id)}}">
+                    <input type="submit" class="btn btn-danger" value="Supprimer" onsubmit="return confirm(confirmez la suppression ?)">
+                </form>
             </td>
         </tr>
 

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification {% endblock %}
+
+{% block body %}
+<br/>
+{% if modif %}
+    <h2>Modification : {{ book.title }}</h2>
+{% else %}
+    <h2>Ajout d'un livre</h2>
+{% endif %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <br/>
+    <div class="example-wrapper">
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">
+                {% if book.image %}
+                    <img src="{{ asset("images/books/"~ book.image )}}" alt="{{ book.title }}">
+                {% endif %}
+                <div> {{ form_row(form.imageFile) }} </div>
+                <div> {{ form_row(form.title, {'label':"Nom du livre"}) }} </div>
+            </div>
+            <div class="col-6">
+                <div> {{ form_row(form.author, {'label':"Auteur"}) }} </div>
+                <div> {{ form_row(form.publish_date, {'label':"Date de publication"}) }} </div>
+                <div> {{ form_row(form.details, {'label':"Description"}) }} </div>
+                <div> {{ form_row(form.category, {'label':"Catégorie"}) }} </div>
+            </div>
+        </div>
+
+        <input class="btn btn-secondary btn-block" type="submit" value="{{ book.id ? "Valier la modification" : "Ajouter" }}">
+    {{ form_end(form) }}
+    </div>
+    
+
+{% endblock %}

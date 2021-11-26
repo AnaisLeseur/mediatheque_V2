@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
+use App\Form\BookType;
 use App\Repository\BookingRepository;
 use App\Repository\BookRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -59,40 +63,63 @@ class BookController extends AbstractController
             'bookings' => $bookings,
         ]); 
     }
-        /**
+    /**
      * @Route("/admin/add_book", name="add_book")
+     * @Route("/admin/update_book/{id}", name="admin_update_book", methods={"GET","POST"})
      */
-    public function addBook(): Response
+    public function addOrUpdateBook(Request $request, EntityManagerInterface $manager, Book $book = null): Response
     {
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
+
+        if (!$book) {
+            $book = new Book();
+        }
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('imageFile')->getData();
+
+            if ($image != null) {
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                // On copie le fichier dans le dossier uploads
+/*                 $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                ); */
+                $book->setImage($fichier);
+            }
+            $modif = $book->getId() !== null;
+            $manager->persist($book);
+            $this->addFlash("success", ($modif) ? "La modification a été effectuée" : "L'ajout a été effectuée");
+            $manager->flush();
+            return $this->redirectToRoute('manage_books');
+        }
+
+        return $this->render('admin/manage_book/edit_book.html.twig', [
+            'book' => $book,
+            'form' => $form->createView(),
+            'modif' => $book->getId() !== null
         ]);
     }
-            /**
-     * @Route("/admin/update_book", name="admin_update_book")
+    /**
+     * @Route("/admin/delete_book/{id}", name="admin_delete_book")
      */
-    public function updateBook(): Response
+    public function deleteBook(Request $request, EntityManagerInterface $manager, Book $book = null): Response
     {
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
-        ]);
+        if($this->isCsrfTokenValid('SUP' . $book->getId(), $request->get('_token'))) {
+            $manager->remove($book);
+            $manager->flush();
+            $this->addFlash("success", "La suppression a été effectuée");
+
+            return $this->redirectToRoute('manage_books');
+        }
     }
-            /**
-     * @Route("/admin/delete_book", name="admin_delete_book")
-     */
-    public function deleteBook(): Response
-    {
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
-        ]);
-    }
-            /**
+    /**
      * @Route("/admin/manage_books", name="manage_books")
      */
     public function manageBooks(BookRepository $bookRepo): Response
     {
         $books = $bookRepo->findAll();
-        return $this->render('booking/index.html.twig', [
+        return $this->render('admin/manage_book/index.html.twig', [
             'books' => $books,
         ]);
     }
