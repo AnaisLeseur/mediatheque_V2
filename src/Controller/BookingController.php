@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\BookingRepository;
 use App\Repository\BookRepository;
 
 class BookingController extends AbstractController
@@ -29,9 +30,11 @@ class BookingController extends AbstractController
     /**
      * @Route("/admin_booking", name="admin_booking")
      */
-    public function booking(): Response
+    public function booking(BookingRepository $bookingRepo): Response
     {
-        return $this->render('booking/return.html.twig', [
+        $bookingAll = $bookingRepo->findAll();
+        return $this->render('booking/booking.html.twig', [
+            "bookings" => $bookingAll,
         ]);
     }
 

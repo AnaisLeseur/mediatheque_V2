@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    img{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        max-width: 150px;
+        height: auto;
+    }
+    .max-card {
+        max-width: 220px;
+        height: auto;
+    }
+        table {
+        width:100%;
+    }
+    td, th {
+        margin:15px;
+        padding:15px;
+        text-align:center
+    }
+    tr {
+        border-bottom:solid 1px grey; 
+    }
+    thead {
+        background-color:lightgrey;
+        text-align:center
+    }
+</style>
+
+<br/>
+    <h1>Liste des réservations ✅</h1>
+    <br/>
+    <table>
+        <thead>
+            <th>Livre</th>
+            <th>Personne</th>
+            <th>Date de réservation</th>
+        </thead>
+        <tbody>
+
+
+    {% for booking in bookings %}
+    <tr>
+        <td><strong>{{ booking.book.title }}</strong></td>
+        <td>{{ booking.user.name }}</td>
+        <td>{{ booking.bookingDate|date('d-M-Y') }}</td>
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}
